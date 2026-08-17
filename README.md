@@ -1,4 +1,4 @@
-# 🔐 Hackbox Setup Toolkit
+# 🔐 VPS Setup Toolkit
 
 > A menu-driven bash script that transforms a freshly provisioned VPS into a bug bounty and cybersecurity-ready workstation — one command at a time.
 
@@ -17,7 +17,7 @@ You can run each step individually from a menu, or hit **A** for full setup or *
 | # | Menu Option | What It Does |
 |---|-------------|-------------|
 | 1 | System Update | Full `apt update`, `upgrade`, `dist-upgrade`, and cache cleanup |
-| 2 | Create User | Creates `z3r0` user, adds to `sudo` group, copies SSH keys |
+| 2 | Create User | Creates `z3r0` user, adds to `sudo` group, **prompts for password**, copies SSH keys |
 | 3 | SSH Hardening | Disables root login, disables password auth (key-only) |
 | 4 | Basic Essentials | **Fast, minimal** — curl, wget, git, python3, pip, htop, tmux, zsh, ripgrep, fd, bat, net-tools, socat, nc |
 | 5 | CyberSec Tools | **Medium** — nmap, masscan, sqlmap, nikto, gobuster, dirb, httpie, whatweb, dnsutils, whois, traceroute |
@@ -69,9 +69,9 @@ sudo bash setup.sh
 ### Minimal — just a usable VPS (2 minutes)
 ```
 1. SSH in as root
-2. Run option 2  →  create user z3r0
+2. Run option 2  →  create user z3r0 (**set password when prompted**)
 3. Open a NEW terminal tab
-4. SSH in as z3r0 to verify it works
+4. SSH in as z3r0 to verify it works (password or key)
 5. Come back and run option 3  →  harden SSH (optional)
 6. Run option B  →  minimal setup (essentials + workspace)
 7. Done — you have a clean dev box
@@ -80,15 +80,15 @@ sudo bash setup.sh
 ### Full Bug Bounty Workstation (15-20 minutes)
 ```
 1. SSH in as root
-2. Run option 2  →  create user z3r0
+2. Run option 2  →  create user z3r0 (**set password when prompted**)
 3. Open a NEW terminal tab
-4. SSH in as z3r0 to verify it works
+4. SSH in as z3r0 to verify it works (password or key)
 5. Come back and run option 3  →  harden SSH
 6. Run option A  →  full setup (everything)
 7. Done — start bug bounty 🎯
 ```
 
-### Menu — install what you need, when you need it
+### À La Carte — install what you need, when you need it
 ```
 Run option 4  →  basic essentials (always fast)
 Run option 5  →  cybersec tools (when you need recon)

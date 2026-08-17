@@ -56,9 +56,28 @@ do_create_user() {
     if id "z3r0" &>/dev/null; then
         warn "User 'z3r0' already exists — skipping creation."
     else
-        adduser --disabled-password --gecos "" z3r0
+        # Prompt for password (with hidden input)
+        echo -e "  ${CYN}[i]${RST} Set password for user 'z3r0' (input hidden):"
+        read -rsp "    Password: " USER_PASS
+        echo
+        read -rsp "    Confirm: " USER_PASS_CONFIRM
+        echo
+        
+        if [ "$USER_PASS" != "$USER_PASS_CONFIRM" ]; then
+            fail "Passwords do not match. User not created."
+            return 1
+        fi
+        
+        if [ -z "$USER_PASS" ]; then
+            fail "Password cannot be empty. User not created."
+            return 1
+        fi
+        
+        # Create user with password
+        adduser --gecos "" --disabled-password z3r0
+        echo "z3r0:$USER_PASS" | chpasswd
         usermod -aG sudo z3r0
-        ok "User 'z3r0' created and added to sudo group."
+        ok "User 'z3r0' created, password set, and added to sudo group."
     fi
 
     # Copy root's authorized_keys so z3r0 can SSH in with the same key
@@ -68,9 +87,9 @@ do_create_user() {
         chown -R z3r0:z3r0 /home/z3r0/.ssh
         chmod 700 /home/z3r0/.ssh
         chmod 600 /home/z3r0/.ssh/authorized_keys
-        ok "SSH keys copied — you can SSH as z3r0 now."
+        ok "SSH keys copied — you can SSH as z3r0 now (key or password)."
     else
-        warn "No root SSH keys found. Set up keys for z3r0 manually."
+        warn "No root SSH keys found. You can still login as z3r0 with password."
     fi
     USER_CREATED=true
     divider
